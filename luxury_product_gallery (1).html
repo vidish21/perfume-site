@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxury Product Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-900">
+    <div class="p-4 max-w-screen-xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <input
+          type="text"
+          id="search"
+          placeholder="Search..."
+          class="border p-2 rounded w-full sm:w-1/2"
+        />
+        <select id="filter" class="border p-2 rounded w-full sm:w-1/4">
+          <option value="All">All</option>
+          <option value="Perfume">Perfume</option>
+          <option value="Watch">Watch</option>
+        </select>
+      </div>
+      <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+    </div>
+
+    <script>
+      const products = [
+        { name: 'Sauvage Dior', category: 'Perfume', image: 'https://i.postimg.cc/HnGxgmwf/sauvage-dior.jpg' },
+        { name: 'Yves Saint Laurent Mon Paris', category: 'Perfume', image: 'https://i.postimg.cc/XZLDQ44p/yves-saint-laurent-mon-paris.jpg' },
+        { name: 'Yves Saint Laurent Libre', category: 'Perfume', image: 'https://i.postimg.cc/WF4YyC1S/yves-saint-laurent-libre.jpg' },
+        { name: 'Invictus Legend', category: 'Perfume', image: 'https://i.postimg.cc/DzsHNKzW/invictus-legend.jpg' },
+        { name: 'Invictus Victory', category: 'Perfume', image: 'https://i.postimg.cc/XNxhmLng/invictus-victory.jpg' },
+        { name: 'Bleu de Chanel', category: 'Perfume', image: 'https://i.postimg.cc/WdnnP8Ky/bleu-de-chanel.jpg' },
+        { name: 'Azzaro Wanted', category: 'Perfume', image: 'https://i.postimg.cc/PP6PZRfr/azzaro-wanted.jpg' },
+        { name: 'Azzaro Most Wanted', category: 'Perfume', image: 'https://i.postimg.cc/B8z2qVCm/azzaro-most-wanted.jpg' },
+        { name: 'Azzaro Chrome', category: 'Perfume', image: 'https://i.postimg.cc/vg6fDtqb/azzaro-chrome.jpg' },
+        { name: 'Dolce Gabbana Light Blue', category: 'Perfume', image: 'https://i.postimg.cc/D46ZzWT7/dolce-gabbana-light-blue.jpg' }
+      ];
+
+      const gallery = document.getElementById('gallery');
+      const searchInput = document.getElementById('search');
+      const filterSelect = document.getElementById('filter');
+
+      function renderGallery() {
+        const search = searchInput.value.toLowerCase();
+        const filter = filterSelect.value;
+        gallery.innerHTML = '';
+        products
+          .filter(p => (filter === 'All' || p.category === filter) && p.name.toLowerCase().includes(search))
+          .forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'border rounded-lg overflow-hidden shadow hover:shadow-lg transition';
+            card.innerHTML = `
+              <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover" />
+              <div class="p-2 text-center font-semibold text-sm">${product.name}</div>
+            `;
+            gallery.appendChild(card);
+          });
+      }
+
+      searchInput.addEventListener('input', renderGallery);
+      filterSelect.addEventListener('change', renderGallery);
+      window.addEventListener('DOMContentLoaded', renderGallery);
+    </script>
+  </body>
+</html>
